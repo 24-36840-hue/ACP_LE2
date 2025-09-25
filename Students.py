@@ -17,7 +17,29 @@ class Student:
     def calculate_gpa(self):
     # 👉 convert scores into GPA scale (A=4.0, B=3.0, etc.)
     # 👉 compute and return average GPA
-        pass
+        if not self.grades:
+            return None
+        total = 0 
+        count = 0 
+
+        for score in self.grades.values(): 
+            if isinstance(score, str): 
+                grade = score.upper() 
+                gpa = {'A': 4.0, 'B': 3.0, 'C': 2.0, 'D': 1.0, 'F': 0.0}.get(grade, 0.0) 
+            else:
+                if score >= 90:
+                    gpa = 4.0
+                elif score >= 80:
+                    gpa = 3.0
+                elif score >= 70:
+                    gpa = 2.0
+                elif score >= 60:
+                    gpa = 1.0
+                else:
+                    gpa = 0.0
+            total += gpa 
+            count += 1 
+        return round(total / count, 2) if count else None 
 
 class StudentRecords:
     def __init__(self):
@@ -91,3 +113,4 @@ print(records.search_by_name("lucy"))
 print(records.delete_student(1001))
 print(records.search_student(1001))
 print(records.search_by_name("mark"))
+print("Lucy's GPA:", [student.calculate_gpa() for student in records.students if student.id_name[0] == 1002][0]) 
